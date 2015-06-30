@@ -116,5 +116,14 @@ func main() {
 		message := receiveMessageOutput.Messages[0]
 		fmt.Println("New message:")
 		printMessage(message)
+		
+		// delete received message
+		_, err = sqsInstance.DeleteMessage(&sqs.DeleteMessageInput{
+			QueueURL: queueURL,
+			ReceiptHandle: message.ReceiptHandle,
+		})
+		if err != nil {
+			fmt.Println("DeleteMessage:", err)
+		}
 	}
 }
